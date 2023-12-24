@@ -17,7 +17,7 @@ namespace StateMachine.Service.StateMachines
     {
         //state machine e gelecek eventler. diğer eventleri de state machine ilgili kuyruklara atacak
         public Event<OrderStartedEvent> OrderStartedEvent { get; set; }
-        public Event<StockReservedEvents> StockReservedEvent { get; set; }
+        public Event<StockReservedEvent> StockReservedEvent { get; set; }
         public Event<StockNotReservedEvent> StockNotReservedEvent { get; set; }
         public Event<PaymentCompletedEvent> PaymentCompletedEvent { get; set; }
         public Event<PaymentFailedEvent> PaymentFailedEvent { get; set; }
@@ -67,7 +67,7 @@ namespace StateMachine.Service.StateMachines
             During(OrderCreated,
                 When(StockReservedEvent)
                 .TransitionTo(StockReserved)
-                .Send(new Uri($"queue: {RabbitMQSettings.Payment_StartedEventQueue}"),
+                .Send(new Uri($"queue:{RabbitMQSettings.Payment_StartedEventQueue}"),
 
                 context => new PaymentStartedEvent(context.Instance.CorrelationId)
                 {
@@ -90,8 +90,8 @@ namespace StateMachine.Service.StateMachines
                 context => new OrderCompletedEvent
                 {
                     OrderId = context.Instance.OrderId
-                })
-                .Finalize(),
+                }),
+                //.Finalize(),
                 When(PaymentFailedEvent)
                 .TransitionTo(PaymentFailed)
                 //payment fail oldu order api i haberdar et
@@ -108,7 +108,7 @@ namespace StateMachine.Service.StateMachines
                     OrderItems = context.Data.OrderItems
                 }));
 
-            SetCompletedWhenFinalized();
+            //SetCompletedWhenFinalized();
         }
     }
 }

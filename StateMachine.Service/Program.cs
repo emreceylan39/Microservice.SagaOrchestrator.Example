@@ -1,5 +1,6 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Shared.Settings;
 using StateMachine.Service.StateDbContexts;
 using StateMachine.Service.StateInstance;
 using StateMachine.Service.StateMachines;
@@ -20,6 +21,10 @@ builder.Services.AddMassTransit(configurator =>
     configurator.UsingRabbitMq((context, _configure) =>
     {
         _configure.Host(builder.Configuration["RabbitMQ"]);
+
+        _configure.ReceiveEndpoint(RabbitMQSettings.StateMachineQueue, e=>e.ConfigureSaga<OrderStateInstance>(context));
+
+        _configure.UseRawJsonSerializer();
     });
 });
 

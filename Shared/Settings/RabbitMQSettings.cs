@@ -8,7 +8,7 @@ namespace Shared.Settings
 {
     public static class RabbitMQSettings
     {
-        public const string StateMachineQueue = $"state-machine-queue";
+        public const string StateMachineQueue = "state-machine-queue";
         public const string Stock_OrderCreatedEventQueue = $"stock-order-create-event-queue";
         public const string Order_OrderCompletedEventQueue = $"order-order-completed-event-queue";
         public const string Order_OrderFailedEventQueue = $"order-order-failed-event-queue";

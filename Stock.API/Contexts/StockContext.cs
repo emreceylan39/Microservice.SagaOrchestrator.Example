@@ -8,6 +8,7 @@ namespace Stock.API.Contexts
         {
         }
 
+        public DbSet<Stock.API.Models.Stock> Stocks { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Stock.API.Models.Stock>().HasData(

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Shared.StockEvents
 {
-    public class StockReservedEvents : CorrelatedBy<Guid>
+    public class StockReservedEvent : CorrelatedBy<Guid>
     {
-        public StockReservedEvents(Guid correlatedId)
+        public StockReservedEvent(Guid correlationId)
         {
-            CorrelationId = correlatedId;
+            CorrelationId = correlationId;
         }
         public Guid CorrelationId { get; }
         public List<OrderItemMessage> OrderItems { get; set; }
